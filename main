@@ -1,0 +1,18 @@
+# CSVファイルのパスをプロンプトで入力
+$csvPath = Read-Host "CSVファイルのパスを入力してください"
+
+# CSVファイルの内容を読み込む
+$csvData = Import-Csv -Path $csvPath
+
+foreach ($row in $csvData) {
+    $printerName = $row.PrinterName
+    $driverName = $row.DriverName
+
+    # プリンタのドライバを変更する
+    try {
+        Set-Printer -Name $printerName -DriverName $driverName
+        Write-Host "$printerName のドライバを $driverName に変更しました"
+    } catch {
+        Write-Host "$printerName のドライバ変更に失敗しました： $_"
+    }
+}
